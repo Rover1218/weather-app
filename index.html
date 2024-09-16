@@ -11,23 +11,28 @@
         body {
             font-family: Arial, sans-serif;
             background-image: url('./images/hehe.png');
+            background-size: cover;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
+
         .weather-dashboard {
-            background-color: rgba(255, 255, 255, 0.9); /* Transparent white background */
+            background-color: rgba(255, 255, 255, 0.541); /* Transparent white background */
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            width: 600px;
+            width: 100%;
+            max-width: 600px;
             display: flex;
             flex-direction: column;
             animation: fadeIn 1s ease-out;
+            box-sizing: border-box;
         }
+
         .city-input {
             display: flex;
             align-items: center;
@@ -35,11 +40,13 @@
             border-bottom: 1px solid #ddd;
             padding-bottom: 10px;
         }
+
         .city-input label {
             margin-right: 10px;
             font-size: 16px;
             font-weight: bold;
         }
+
         .city-input input {
             padding: 5px;
             font-size: 16px;
@@ -48,13 +55,14 @@
             flex: 1;
             transition: border-color 0.3s;
         }
+
         .city-input input:focus {
             border-color: #007bff;
             outline: none;
         }
+
         .city-input button {
             margin-left: 10px;
-            padding: 6px 10px;
             font-size: 14px;
             border-radius: 5px;
             background-color: #007bff;
@@ -66,123 +74,124 @@
             height: 40px;
             padding: 0;
         }
+
         .city-input button:hover {
             background-color: #0056b3;
             transform: scale(1.05);
         }
+
         .current-weather {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
             animation: fadeIn 1s ease-in;
+            flex-wrap: wrap;
         }
+
         .current-weather .icon {
             font-size: 50px;
             margin-right: 20px;
             color: #007bff;
         }
+
         .current-weather .details {
             font-size: 16px;
+            flex: 1;
         }
+
         .current-weather .details .temperature {
             font-size: 40px;
             font-weight: bold;
             color: #007bff;
         }
+
         .current-weather .details .condition {
             font-size: 20px;
             font-weight: bold;
         }
+
         .current-weather .details .humidity,
         .current-weather .details .wind-speed {
             margin-top: 10px;
         }
+
         .forecast {
             display: flex;
             flex-direction: column;
             animation: fadeIn 1s ease-in;
         }
-        .forecast .temperature-chart {
-            margin-bottom: 20px;
-        }
-        .forecast .temperature-chart .temperature {
-            font-size: 24px;
-            font-weight: bold;
-            color: #007bff;
-        }
-        .forecast .temperature-chart .chart {
-            height: 100px;
-            background-color: #e6f2ff;
-            border-radius: 5px;
-            position: relative;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .forecast .temperature-chart .chart::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 20%;
-            width: 60%;
-            height: 2px;
-            background-color: #007bff;
-        }
-        .forecast .temperature-chart .chart::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 20%;
-            width: 10px;
-            height: 10px;
-            background-color: #007bff;
-            border-radius: 50%;
-        }
+
         .forecast .days {
             display: flex;
-            justify-content: space-between;
             flex-wrap: wrap;
+            justify-content: space-between;
+            margin: -5px; /* Adjusts spacing between items */
         }
+
         .forecast .days .day {
             text-align: center;
-            padding: 15px;
+            padding: 10px;
             border-radius: 10px;
             background: #ffffff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s, transform 0.3s;
-            width: 48%;
-            margin-bottom: 10px;
-            animation: bounceIn 1s;
+            width: 20%; /* Five items in a row */
+            margin: 5px; /* Space between items */
+            box-sizing: border-box; /* Includes padding and border in width */
         }
+
         .forecast .days .day:hover {
             background-color: #e6f2ff;
             transform: translateY(-5px);
         }
+
         .forecast .days .day.today {
             background-color: #007bff;
             color: #ffffff;
         }
-        .forecast .days .day .icon {
-            font-size: 30px;
-            margin-bottom: 5px;
+
+        @media (max-width: 768px) {
+            .forecast .days .day {
+                width: 48%; /* Two items per row */
+            }
         }
-        .forecast .days .day .temperature {
-            font-size: 18px;
-            font-weight: bold;
+
+        @media (max-width: 480px) {
+            .current-weather .details .temperature {
+                font-size: 32px;
+            }
+
+            .current-weather .details .condition {
+                font-size: 18px;
+            }
+
+            .forecast .days .day {
+                width: 100%; /* Stack in one column */
+            }
         }
-        .forecast .days .day .humidity {
-            font-size: 14px;
-        }
-        .alert {
-            border-radius: 5px;
-            animation: fadeIn 1s ease-in;
-        }
+
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
+
         @keyframes bounceIn {
-            0% { opacity: 0; transform: scale(0.5); }
-            50% { opacity: 1; transform: scale(1.1); }
-            100% { opacity: 1; transform: scale(1); }
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
     </style>
 </head>
@@ -228,4 +237,4 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 </body>
-</html>
+</html>     
