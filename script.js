@@ -173,7 +173,7 @@ function updateBackground(weatherCondition) {
     const backgrounds = {
         clear: 'url(./images/clear.jpg)', // Use your image paths here
         clouds: 'url(./images/clouds.jpg)',
-        rain: 'url(./images/rain.jpg)',
+        rain: 'url(./images/rainy.jepg)',
         snow: 'url(./images/snow.jpg)',
         thunderstorm: 'url(./images/thunderstorm.jpg)',
         default: 'url(./images/default.jpg)'
