@@ -1,5 +1,4 @@
-Here’s a simple README template you can use for your project, including instructions on how to manage your `.env` file to keep API keys secure.
-
+WEATHER APP
 ---
 
 # Weather and Image Fetcher
