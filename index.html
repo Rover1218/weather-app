@@ -12,8 +12,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: lightblue;
-            background-size: cover;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
             margin: 0;
             padding: 0;
             display: flex;
@@ -24,7 +23,7 @@
         }
 
         .weather-dashboard {
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
             padding: 30px;
@@ -41,7 +40,6 @@
             display: flex;
             align-items: center;
             margin-bottom: 20px;
-            animation: slideIn 0.5s ease-in;
         }
 
         .city-input label {
@@ -82,14 +80,12 @@
         .city-input button:hover {
             background-color: #0056b3;
             transform: scale(1.05);
-            animation: pulse 0.5s infinite;
         }
 
         .current-weather {
             display: flex;
             align-items: center;
             margin-bottom: 20px;
-            animation: fadeIn 0.5s ease-in;
             flex-wrap: wrap;
             background-color: #e7f3ff;
             border-radius: 10px;
@@ -106,7 +102,6 @@
             font-size: 60px;
             margin-right: 20px;
             color: #007bff;
-            animation: bounce 1s infinite;
         }
 
         .current-weather .details {
@@ -132,24 +127,19 @@
 
         .forecast-container {
             display: flex;
-            /* Use flexbox for a horizontal layout */
             overflow-x: auto;
-            /* Allow horizontal scrolling if needed */
             gap: 15px;
-            /* Space between items */
             padding: 10px 0;
-            /* Padding for top and bottom */
         }
 
         .forecast-item {
             flex: 0 0 150px;
-            /* Fixed width for each forecast item */
             background-color: #e7f3ff;
             border-radius: 10px;
             padding: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: all 0.3s;
         }
 
         .forecast-item img {
@@ -178,42 +168,6 @@
             }
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-15px);
-            }
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.1);
-            }
-        }
-
         @media (max-width: 768px) {
             .weather-dashboard {
                 padding: 20px;
@@ -232,9 +186,8 @@
         }
 
         @media (max-width: 480px) {
-            .forecast .days .day {
-                width: 100%;
-                margin: 5px 0;
+            .forecast-item {
+                flex: 0 0 120px;
             }
         }
     </style>
@@ -250,17 +203,22 @@
             </button>
         </div>
         <div id="weatherResult" class="d-none">
-            <h2 id="locationName"></h2> <!-- New line to show the location name -->
-            <p id="temperature"></p>
-            <p id="description"></p>
-            <p id="humidity"></p>
-            <p id="pressure"></p>
-            <p id="windSpeed"></p>
-            <p id="windPressure"></p>
-            <img id="weatherIcon" alt="Weather Icon">
-            <p id="dateTime"></p>
+            <h2 id="locationName" class="text-center"></h2>
+            <div class="current-weather">
+                <img id="weatherIcon" alt="Weather Icon" class="icon">
+                <div class="details">
+                    <div class="temperature" id="temperature"></div>
+                    <div class="condition" id="description"></div>
+                    <div id="humidity"></div>
+                    <div id="pressure"></div>
+                    <div id="windSpeed"></div>
+                    <div id="windPressure"></div>
+                    <div id="dateTime"></div>
+                </div>
+            </div>
         </div>
         <div id="forecast" class="d-none forecast">
+            <h4 class="text-center">5-Day Forecast</h4>
             <div class="forecast-container" id="forecastContainer">
                 <!-- Forecast items will be injected here by JavaScript -->
             </div>
