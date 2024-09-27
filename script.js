@@ -1,6 +1,6 @@
 // Define your API keys
 const openWeatherApiKey = '53ad03288e2c21bbf2aea3ae3f1344de'; // Replace with your OpenWeather API key
-const pexelsApiKey = '659ykfbQVKB4YltcNmarXYf5qMCvmO76d4BqqncVKwaE61RqVT6pZbuW'; // Replace with your Pexels API key
+const unsplashApiKey = 'ggoz2N2Aa4g8Vj7BLyEEsMj78B5yfsL0IzVz2WDhxes'; // Replace with your Unsplash API key
 
 // Ensure the DOM is fully loaded before attaching event listeners
 document.addEventListener('DOMContentLoaded', function () {
@@ -179,13 +179,13 @@ function displayForecast(data) {
 // Utility function to update the background based on weather condition
 async function updateBackground(weatherCondition) {
     const searchTerm = getSearchTermForWeatherCondition(weatherCondition);
-    const imageUrl = await fetchPexelsImage(searchTerm);
+    const imageUrl = await fetchUnsplashImage(searchTerm);
 
     const body = document.querySelector('body');
     body.style.backgroundImage = `url(${imageUrl})`;
 }
 
-// Function to get the search term for Pexels based on weather condition
+// Function to get the search term for Unsplash based on weather condition
 function getSearchTermForWeatherCondition(weatherCondition) {
     const searchTerms = {
         clear: 'clear sky',
@@ -193,26 +193,23 @@ function getSearchTermForWeatherCondition(weatherCondition) {
         rain: 'rain',
         snow: 'snow',
         thunderstorm: 'thunderstorm',
+        haze: 'haze',
     };
-    return searchTerms[weatherCondition] || 'default';
+    return searchTerms[weatherCondition] || 'nature';
 }
 
-// Function to fetch an image from Pexels based on a search term
-async function fetchPexelsImage(searchTerm) {
-    const pexelsUrl = `https://api.pexels.com/v1/search?query=${encodeURIComponent(searchTerm)}&per_page=1`;
+// Function to fetch an image from Unsplash based on a search term
+async function fetchUnsplashImage(searchTerm) {
+    const unsplashUrl = `https://api.unsplash.com/photos/random?query=${encodeURIComponent(searchTerm)}&client_id=${unsplashApiKey}`;
 
-    const response = await fetch(pexelsUrl, {
-        headers: {
-            Authorization: pexelsApiKey, // Your Pexels API key
-        },
-    });
+    const response = await fetch(unsplashUrl);
 
     if (!response.ok) {
-        throw new Error('Could not fetch image from Pexels');
+        throw new Error('Could not fetch image from Unsplash');
     }
 
     const data = await response.json();
-    return data.photos[0]?.src?.original || 'default_image_url.jpg'; // Fallback to a default image if not found
+    return data.urls?.regular || 'default_image_url.jpg'; // Fallback to a default image if not found
 }
 
 // Utility function to show loading indicator
