@@ -250,20 +250,15 @@
             </button>
         </div>
         <div id="weatherResult" class="d-none">
-            <div class="current-weather card">
-                <div class="icon">
-                    <i id="weatherIcon" class="fas"></i>
-                </div>
-                <div class="details">
-                    <div id="temperature" class="temperature"></div>
-                    <div id="description" class="condition"></div>
-                    <div id="humidity" class="humidity"></div>
-                    <div id="pressure" class="pressure"></div>
-                    <div id="windSpeed" class="wind-speed"></div>
-                    <div id="windPressure" class="wind-pressure"></div>
-                    <div id="dateTime" class="text-muted"></div>
-                </div>
-            </div>
+            <h2 id="locationName"></h2> <!-- New line to show the location name -->
+            <p id="temperature"></p>
+            <p id="description"></p>
+            <p id="humidity"></p>
+            <p id="pressure"></p>
+            <p id="windSpeed"></p>
+            <p id="windPressure"></p>
+            <img id="weatherIcon" alt="Weather Icon">
+            <p id="dateTime"></p>
         </div>
         <div id="forecast" class="d-none forecast">
             <div class="forecast-container" id="forecastContainer">

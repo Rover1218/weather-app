@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const getCurrentLocationWeatherButton = document.getElementById('getCurrentLocationWeather');
     const refreshWeatherButton = document.getElementById('refreshWeather');
 
+    // Automatically fetch current location weather on load
+    getCurrentLocationWeather();
+
     if (getWeatherButton) {
         getWeatherButton.addEventListener('click', fetchWeather);
     }
@@ -90,7 +93,7 @@ function getWeatherByCoordinates(lat, lon) {
     fetchWeatherDataByCoordinates(lat, lon)
         .then(data => {
             if (data.cod === 200) {
-                displayCurrentWeather(data);
+                displayCurrentWeather(data, lat, lon);
                 return fetchForecastByCoordinates(lat, lon);
             } else {
                 throw new Error('Unable to retrieve weather data. Please try again.');
@@ -120,8 +123,12 @@ function fetchForecastByCoordinates(lat, lon) {
 }
 
 // Function to display current weather data
-function displayCurrentWeather(data) {
+function displayCurrentWeather(data, lat, lon) {
     document.getElementById('weatherResult').classList.remove('d-none');
+
+    // Display the location name
+    document.getElementById('locationName').textContent = `Location: ${data.name}, ${data.sys.country}`;
+
     document.getElementById('temperature').textContent = `Temperature: ${Math.round(data.main.temp)}°C`;
     document.getElementById('description').textContent = `Description: ${data.weather[0].description}`;
     document.getElementById('humidity').textContent = `Humidity: ${data.main.humidity}%`;
