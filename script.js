@@ -1,6 +1,6 @@
 // Define your API keys
-const openWeatherApiKey = process.env.OPENWEATHER_API_KEY; // Replace with your OpenWeather API key
-const pexelsApiKey = process.env.PEXELS_API_KEY; // Replace with your Pexels API key
+const openWeatherApiKey = '53ad03288e2c21bbf2aea3ae3f1344de'; // Replace with your OpenWeather API key
+const pexelsApiKey = '659ykfbQVKB4YltcNmarXYf5qMCvmO76d4BqqncVKwaE61RqVT6pZbuW'; // Replace with your Pexels API key
 
 // Ensure the DOM is fully loaded before attaching event listeners
 document.addEventListener('DOMContentLoaded', function () {
