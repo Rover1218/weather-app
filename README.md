@@ -19,28 +19,6 @@ This project allows users to fetch weather information based on city input or cu
 - Ensure you have a modern web browser for testing.
 - No additional packages are required, as this project does not use npm.
 
-### API Keys
-
-To keep your API keys secure, follow these steps:
-
-1. **Create a `.env` File**:
-   - In the root directory of your project, create a file named `.env`.
-
-2. **Add Your API Keys**:
-   - Open the `.env` file and add your API keys in the following format:
-
-   ```plaintext
-   OPEN_WEATHER_API_KEY=your_open_weather_api_key
-   PEXELS_API_KEY=your_pexels_api_key
-   ```
-
-3. **Prevent the `.env` File from Being Pushed to GitHub**:
-   - Make sure to add `.env` to your `.gitignore` file to prevent it from being tracked by Git. This ensures that your API keys remain private. Add the following line to `.gitignore`:
-
-   ```plaintext
-   .env
-   ```
-
 ### Running the Project
 
 1. **Clone the Repository**:
