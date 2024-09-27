@@ -1,5 +1,6 @@
-// Define your API key
-const apiKey = '53ad03288e2c21bbf2aea3ae3f1344de'; // Replace with your OpenWeather API key
+// Define your API keys
+const openWeatherApiKey = process.env.OPENWEATHER_API_KEY; // Replace with your OpenWeather API key
+const pexelsApiKey = process.env.PEXELS_API_KEY; // Replace with your Pexels API key
 
 // Ensure the DOM is fully loaded before attaching event listeners
 document.addEventListener('DOMContentLoaded', function () {
@@ -75,13 +76,13 @@ function getWeatherByCity(city) {
 
 // Function to fetch weather data by city name
 function fetchWeatherData(city) {
-    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${openWeatherApiKey}&units=metric`;
     return fetch(weatherUrl).then(response => response.json());
 }
 
 // Function to fetch 5-day forecast by city name
 function fetchForecast(city) {
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${openWeatherApiKey}&units=metric`;
     return fetch(forecastUrl).then(response => response.json());
 }
 
@@ -93,7 +94,7 @@ function getWeatherByCoordinates(lat, lon) {
     fetchWeatherDataByCoordinates(lat, lon)
         .then(data => {
             if (data.cod === 200) {
-                displayCurrentWeather(data, lat, lon);
+                displayCurrentWeather(data);
                 return fetchForecastByCoordinates(lat, lon);
             } else {
                 throw new Error('Unable to retrieve weather data. Please try again.');
@@ -112,18 +113,18 @@ function getWeatherByCoordinates(lat, lon) {
 
 // Function to fetch weather data by coordinates
 function fetchWeatherDataByCoordinates(lat, lon) {
-    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${openWeatherApiKey}&units=metric`;
     return fetch(weatherUrl).then(response => response.json());
 }
 
 // Function to fetch 5-day forecast by coordinates
 function fetchForecastByCoordinates(lat, lon) {
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${openWeatherApiKey}&units=metric`;
     return fetch(forecastUrl).then(response => response.json());
 }
 
 // Function to display current weather data
-function displayCurrentWeather(data, lat, lon) {
+function displayCurrentWeather(data) {
     document.getElementById('weatherResult').classList.remove('d-none');
 
     // Display the location name
@@ -176,18 +177,42 @@ function displayForecast(data) {
 }
 
 // Utility function to update the background based on weather condition
-function updateBackground(weatherCondition) {
-    const backgrounds = {
-        clear: 'url(./images/clear.jpg)', // Use your image paths here
-        clouds: 'url(./images/clouds.jpg)',
-        rain: 'url(./images/rainy.jpeg)',
-        snow: 'url(./images/snow.jpg)',
-        thunderstorm: 'url(./images/thunderstorm.jpg)',
-        default: 'url(./images/default.jpg)'
-    };
+async function updateBackground(weatherCondition) {
+    const searchTerm = getSearchTermForWeatherCondition(weatherCondition);
+    const imageUrl = await fetchPexelsImage(searchTerm);
 
     const body = document.querySelector('body');
-    body.style.backgroundImage = backgrounds[weatherCondition] || backgrounds['default'];
+    body.style.backgroundImage = `url(${imageUrl})`;
+}
+
+// Function to get the search term for Pexels based on weather condition
+function getSearchTermForWeatherCondition(weatherCondition) {
+    const searchTerms = {
+        clear: 'clear sky',
+        clouds: 'cloudy',
+        rain: 'rain',
+        snow: 'snow',
+        thunderstorm: 'thunderstorm',
+    };
+    return searchTerms[weatherCondition] || 'default';
+}
+
+// Function to fetch an image from Pexels based on a search term
+async function fetchPexelsImage(searchTerm) {
+    const pexelsUrl = `https://api.pexels.com/v1/search?query=${encodeURIComponent(searchTerm)}&per_page=1`;
+
+    const response = await fetch(pexelsUrl, {
+        headers: {
+            Authorization: pexelsApiKey, // Your Pexels API key
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('Could not fetch image from Pexels');
+    }
+
+    const data = await response.json();
+    return data.photos[0]?.src?.original || 'default_image_url.jpg'; // Fallback to a default image if not found
 }
 
 // Utility function to show loading indicator

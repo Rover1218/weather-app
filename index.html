@@ -19,14 +19,15 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-y: auto;
+            /* Allow vertical scrolling */
         }
 
         .weather-dashboard {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
-            padding: 30px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
             width: 100%;
             max-width: 700px;
             display: flex;
@@ -40,27 +41,30 @@
             display: flex;
             align-items: center;
             margin-bottom: 20px;
+            background-color: #ffffff;
+            border-radius: 30px;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .city-input label {
             margin-right: 10px;
-            font-size: 18px;
-            font-weight: bold;
+            font-size: 16px;
             color: #007bff;
-            transition: color 0.3s;
+            font-weight: bold;
+            display: none;
         }
 
         .city-input input {
             padding: 12px;
             font-size: 16px;
-            border: 2px solid #007bff;
-            border-radius: 5px;
+            border: none;
+            border-radius: 30px;
             flex: 1;
-            transition: border-color 0.3s, box-shadow 0.3s;
+            transition: box-shadow 0.3s;
         }
 
         .city-input input:focus {
-            border-color: #0056b3;
             box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
             outline: none;
         }
@@ -68,13 +72,13 @@
         .city-input button {
             margin-left: 10px;
             font-size: 16px;
-            border-radius: 5px;
+            border-radius: 30px;
             background-color: #007bff;
             color: #fff;
             border: none;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.3s;
-            padding: 12px 15px;
+            padding: 12px 20px;
         }
 
         .city-input button:hover {
@@ -88,7 +92,7 @@
             margin-bottom: 20px;
             flex-wrap: wrap;
             background-color: #e7f3ff;
-            border-radius: 10px;
+            border-radius: 15px;
             padding: 20px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: background-color 0.3s;
@@ -99,7 +103,7 @@
         }
 
         .current-weather .icon {
-            font-size: 60px;
+            font-size: 70px;
             margin-right: 20px;
             color: #007bff;
         }
@@ -110,19 +114,20 @@
         }
 
         .current-weather .details .temperature {
-            font-size: 45px;
+            font-size: 50px;
             font-weight: bold;
             color: #007bff;
         }
 
         .current-weather .details .condition {
-            font-size: 22px;
+            font-size: 24px;
             font-weight: bold;
             color: #555;
         }
 
         .forecast {
             margin-top: 20px;
+            transition: all 0.3s;
         }
 
         .forecast-container {
@@ -135,27 +140,69 @@
         .forecast-item {
             flex: 0 0 150px;
             background-color: #e7f3ff;
-            border-radius: 10px;
-            padding: 10px;
+            border-radius: 15px;
+            padding: 15px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .forecast-item:hover {
+            transform: scale(1.05);
+            background-color: #d1e7fd;
         }
 
         .forecast-item img {
             max-width: 60px;
             margin-bottom: 10px;
+            transition: transform 0.3s;
+        }
+
+        .forecast-item:hover img {
+            transform: scale(1.2);
         }
 
         .forecast-item h5 {
             margin: 0;
-            font-size: 18px;
+            font-size: 20px;
             color: #007bff;
         }
 
         .forecast-item p {
             margin: 5px 0;
             color: #555;
+        }
+
+        /* New Overlay for details on hover */
+        .forecast-item .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .forecast-item:hover .overlay {
+            opacity: 1;
+        }
+
+        .overlay h6 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .overlay p {
+            margin: 0;
         }
 
         @keyframes fadeIn {
@@ -170,7 +217,7 @@
 
         @media (max-width: 768px) {
             .weather-dashboard {
-                padding: 20px;
+                padding: 30px;
             }
 
             .city-input {
