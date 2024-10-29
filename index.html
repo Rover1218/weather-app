@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Dashboard</title>
+
+    <!-- Styling -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -20,7 +22,6 @@
             align-items: center;
             min-height: 100vh;
             overflow-y: auto;
-            /* Allow vertical scrolling */
         }
 
         .weather-dashboard {
@@ -29,7 +30,7 @@
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             padding: 40px;
             width: 100%;
-            max-width: 700px;
+            max-width: 900px;
             display: flex;
             flex-direction: column;
             animation: fadeIn 0.5s ease-in;
@@ -126,22 +127,36 @@
         }
 
         .forecast {
-            margin-top: 20px;
-            transition: all 0.3s;
+            margin-top: 30px;
+            background-color: #e7f3ff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .forecast:hover {
+            background-color: #d1e7fd;
+        }
+
+        .forecast h4 {
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
 
         .forecast-container {
             display: flex;
             overflow-x: auto;
-            gap: 15px;
+            gap: 20px;
             padding: 10px 0;
         }
 
         .forecast-item {
             flex: 0 0 150px;
-            background-color: #e7f3ff;
+            background-color: #ffffff;
             border-radius: 15px;
-            padding: 15px;
+            padding: 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             transition: all 0.3s;
@@ -151,7 +166,7 @@
 
         .forecast-item:hover {
             transform: scale(1.05);
-            background-color: #d1e7fd;
+            background-color: #f5f5f5;
         }
 
         .forecast-item img {
@@ -175,8 +190,7 @@
             color: #555;
         }
 
-        /* New Overlay for details on hover */
-        .forecast-item .overlay {
+        .overlay {
             position: absolute;
             top: 0;
             left: 0;
@@ -230,11 +244,48 @@
                 margin-top: 10px;
                 width: 100%;
             }
-        }
 
-        @media (max-width: 480px) {
+            .current-weather {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .current-weather .icon {
+                font-size: 60px;
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+
+            .current-weather .details .temperature {
+                font-size: 40px;
+            }
+
+            .current-weather .details .condition {
+                font-size: 20px;
+            }
+
+            .forecast {
+                margin-top: 20px;
+                padding: 15px;
+            }
+
+            .forecast h4 {
+                font-size: 22px;
+                margin-bottom: 15px;
+            }
+
+            .forecast-container {
+                display: flex;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
             .forecast-item {
-                flex: 0 0 120px;
+                display: inline-block;
+                flex: 0 0 auto;
+                width: 150px;
+                padding: 15px;
             }
         }
     </style>
@@ -242,20 +293,25 @@
 
 <body>
     <div class="weather-dashboard animate__animated animate__fadeIn">
-        <div class="city-input">
-            <label for="city">Your city</label>
-            <input type="text" id="city" class="form-control" placeholder="Enter city" aria-label="City name">
-            <button class="btn btn-primary" id="getWeather" aria-label="Get Weather">
-                <i class="fas fa-search"></i>
-            </button>
+        <!-- Header/Input Section -->
+        <div class="header">
+            <div class="city-input">
+                <label for="city">Your city</label>
+                <input type="text" id="city" class="form-control" placeholder="Enter city" aria-label="City name">
+                <button class="btn btn-primary" id="getWeather" aria-label="Get Weather">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
         </div>
-        <div id="weatherResult" class="d-none">
-            <h2 id="locationName" class="text-center"></h2>
-            <div class="current-weather">
-                <img id="weatherIcon" alt="Weather Icon" class="icon">
-                <div class="details">
-                    <div class="temperature" id="temperature"></div>
-                    <div class="condition" id="description"></div>
+
+        <!-- Current Weather Section -->
+        <div id="weatherResult" class="current-weather d-none">
+            <img id="weatherIcon" alt="Weather Icon" class="icon">
+            <div class="details">
+                <h2 id="locationName" class="mb-3"></h2>
+                <div class="temperature" id="temperature"></div>
+                <div class="condition" id="description"></div>
+                <div class="d-flex flex-wrap justify-content-between mt-3">
                     <div id="humidity"></div>
                     <div id="pressure"></div>
                     <div id="windSpeed"></div>
@@ -264,12 +320,16 @@
                 </div>
             </div>
         </div>
-        <div id="forecast" class="d-none forecast">
-            <h4 class="text-center">5-Day Forecast</h4>
+
+        <!-- Forecast Section -->
+        <div id="forecast" class="forecast d-none">
+            <h4 class="text-center mb-4">5-Day Forecast</h4>
             <div class="forecast-container" id="forecastContainer">
                 <!-- Forecast items will be injected here by JavaScript -->
             </div>
         </div>
+
+        <!-- Error and Loading States -->
         <div id="error" class="alert alert-danger d-none"></div>
         <div id="loading" class="d-none text-center">
             <div class="spinner-border text-primary" role="status">
@@ -277,6 +337,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
